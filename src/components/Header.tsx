@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Zap } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { ToggleSwitch } from "./ToggleSwitch";
+import { EzyLogo } from "./EzyLogo";
 
 const navLinks = [
   { to: "/", label: "Home" },
@@ -16,12 +17,10 @@ export const Header = () => {
   const location = useLocation();
 
   return (
-    <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
+    <header className="sticky top-0 z-50 border-b border-border backdrop-blur-md" style={{ background: "hsl(224 22% 4% / 0.85)" }}>
       <div className="container flex items-center justify-between h-16">
-        <Link to="/" className="flex items-center gap-2 font-heading font-bold text-xl">
-          <div className="w-8 h-8 rounded-lg gradient-bg flex items-center justify-center">
-            <Zap className="w-5 h-5 text-primary-foreground" />
-          </div>
+        <Link to="/" className="flex items-center gap-2.5 font-heading font-bold text-xl">
+          <EzyLogo size={34} />
           <span>Ezy Converter</span>
         </Link>
 
@@ -49,6 +48,7 @@ export const Header = () => {
         <button
           className="md:hidden p-2 rounded-lg hover:bg-muted transition-colors"
           onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Toggle navigation"
         >
           {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>

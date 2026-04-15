@@ -6,91 +6,80 @@
 
 @layer base {
   :root {
-    --background: 220 20% 97%;
-    --foreground: 220 25% 10%;
+    --background: 43 15% 96%;
+    --foreground: 220 20% 8%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 25% 10%;
+    --card-foreground: 220 20% 8%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 25% 10%;
+    --popover-foreground: 220 20% 8%;
 
-    --primary: 174 72% 40%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 43 85% 46%;
+    --primary-foreground: 220 20% 5%;
 
-    --secondary: 220 15% 92%;
-    --secondary-foreground: 220 25% 15%;
+    --secondary: 43 12% 91%;
+    --secondary-foreground: 220 15% 20%;
 
-    --muted: 220 15% 94%;
-    --muted-foreground: 220 10% 46%;
+    --muted: 43 10% 93%;
+    --muted-foreground: 220 8% 46%;
 
-    --accent: 262 60% 55%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 36 88% 58%;
+    --accent-foreground: 220 20% 5%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 15% 88%;
-    --input: 220 15% 88%;
-    --ring: 174 72% 40%;
+    --border: 43 25% 84%;
+    --input: 43 25% 84%;
+    --ring: 43 85% 46%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-
-    --hero-gradient: linear-gradient(135deg, hsl(174, 72%, 40%), hsl(262, 60%, 55%));
-    --card-shadow: 0 4px 24px -4px hsl(220 25% 10% / 0.08);
-    --card-shadow-hover: 0 8px 32px -4px hsl(220 25% 10% / 0.14);
+    --hero-gradient: linear-gradient(135deg, hsl(43, 85%, 43%), hsl(36, 90%, 60%));
+    --card-shadow: 0 4px 24px -4px hsl(43 60% 30% / 0.12);
+    --card-shadow-hover: 0 8px 32px -4px hsl(43 60% 30% / 0.22);
   }
 
   .dark {
-    --background: 225 25% 8%;
-    --foreground: 220 15% 92%;
+    /* ── Backgrounds ───────────────────────────────────────── */
+    --background: 224 22% 4%;
+    --foreground: 43 18% 88%;
 
-    --card: 225 20% 12%;
-    --card-foreground: 220 15% 92%;
+    --card: 224 20% 7%;
+    --card-foreground: 43 18% 88%;
 
-    --popover: 225 20% 12%;
-    --popover-foreground: 220 15% 92%;
+    --popover: 224 20% 7%;
+    --popover-foreground: 43 18% 88%;
 
-    --primary: 174 72% 45%;
-    --primary-foreground: 225 25% 5%;
+    /* ── Gold primary ───────────────────────────────────────── */
+    --primary: 43 88% 52%;
+    --primary-foreground: 224 22% 4%;
 
-    --secondary: 225 18% 18%;
-    --secondary-foreground: 220 15% 85%;
+    /* ── Surfaces ───────────────────────────────────────────── */
+    --secondary: 224 16% 12%;
+    --secondary-foreground: 43 15% 78%;
 
-    --muted: 225 18% 16%;
-    --muted-foreground: 220 10% 55%;
+    --muted: 224 16% 10%;
+    --muted-foreground: 224 8% 48%;
 
-    --accent: 262 55% 60%;
-    --accent-foreground: 0 0% 100%;
+    /* ── Warm gold accent ───────────────────────────────────── */
+    --accent: 36 86% 62%;
+    --accent-foreground: 224 22% 4%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 62% 35%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 225 18% 20%;
-    --input: 225 18% 20%;
-    --ring: 174 72% 45%;
+    /* ── Borders / inputs — subtle gold ────────────────────── */
+    --border: 43 28% 15%;
+    --input: 43 28% 13%;
+    --ring: 43 88% 52%;
 
-    --sidebar-background: 225 25% 6%;
-    --sidebar-foreground: 220 15% 85%;
-    --sidebar-primary: 174 72% 45%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 225 18% 14%;
-    --sidebar-accent-foreground: 220 15% 85%;
-    --sidebar-border: 225 18% 16%;
-    --sidebar-ring: 174 72% 45%;
-
-    --hero-gradient: linear-gradient(135deg, hsl(174, 72%, 45%), hsl(262, 55%, 60%));
-    --card-shadow: 0 4px 24px -4px hsl(0 0% 0% / 0.3);
-    --card-shadow-hover: 0 8px 32px -4px hsl(0 0% 0% / 0.5);
+    /* ── Gradients & shadows ────────────────────────────────── */
+    --hero-gradient: linear-gradient(135deg, hsl(43, 88%, 48%), hsl(36, 92%, 64%));
+    --card-shadow: 0 4px 32px -4px hsl(0 0% 0% / 0.55);
+    --card-shadow-hover: 0 12px 48px -4px hsl(0 0% 0% / 0.7);
+    --gold-glow: 0 0 80px hsl(43 88% 52% / 0.08);
   }
 }
 
@@ -110,6 +99,8 @@
 }
 
 @layer components {
+
+  /* ── Gradient text & bg ─────────────────────────────────── */
   .gradient-text {
     @apply bg-clip-text text-transparent;
     background-image: var(--hero-gradient);
@@ -119,21 +110,68 @@
     background-image: var(--hero-gradient);
   }
 
+  /* ── Glass card — dark base + top-edge gold glare ───────── */
   .glass-card {
-    @apply bg-card/80 backdrop-blur-sm border border-border rounded-xl;
-    box-shadow: var(--card-shadow);
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    @apply bg-card/90 backdrop-blur-sm border border-border rounded-xl;
+    box-shadow: var(--card-shadow), inset 0 1px 0 hsl(43 74% 52% / 0.08);
+    transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
   }
 
   .glass-card:hover {
-    box-shadow: var(--card-shadow-hover);
+    box-shadow: var(--card-shadow-hover), inset 0 1px 0 hsl(43 74% 52% / 0.18);
+    @apply border-primary/25;
   }
 
+  /* ── Premium step card ──────────────────────────────────── */
+  .premium-card {
+    background: linear-gradient(160deg, hsl(224 22% 9%), hsl(224 22% 5%));
+    border: 1px solid hsl(43 35% 14%);
+    box-shadow: 0 4px 32px hsl(0 0% 0% / 0.5), inset 0 1px 0 hsl(43 74% 52% / 0.1);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .premium-card:hover {
+    border-color: hsl(43 60% 28%);
+    box-shadow: 0 8px 48px hsl(0 0% 0% / 0.6), 0 0 0 1px hsl(43 60% 28%), inset 0 1px 0 hsl(43 74% 52% / 0.18);
+    transform: translateY(-2px);
+  }
+
+  /* ── Drop zone ──────────────────────────────────────────── */
   .drop-zone {
-    @apply border-2 border-dashed border-muted-foreground/30 rounded-xl p-8 text-center transition-colors duration-200;
+    @apply border-2 border-dashed rounded-xl p-8 text-center transition-all duration-200;
+    border-color: hsl(43 30% 22%);
+  }
+
+  .dark .drop-zone {
+    background: hsl(224 22% 5%);
   }
 
   .drop-zone:hover {
-    @apply border-primary/50 bg-primary/5;
+    border-color: hsl(43 88% 52% / 0.5);
+    background: hsl(43 88% 52% / 0.04);
+  }
+
+  /* ── Gold icon glow ─────────────────────────────────────── */
+  .icon-glow {
+    box-shadow: 0 4px 20px hsl(43 88% 52% / 0.35), 0 0 0 1px hsl(43 88% 52% / 0.15);
+  }
+
+  /* ── Hero ambient glow (radial bg) ─────────────────────── */
+  .hero-glow {
+    position: relative;
+  }
+
+  .hero-glow::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 0%, hsl(43 88% 52% / 0.07), transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .hero-glow > * {
+    position: relative;
+    z-index: 1;
   }
 }

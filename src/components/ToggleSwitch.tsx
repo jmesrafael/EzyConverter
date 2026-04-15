@@ -31,7 +31,7 @@ export const ToggleSwitch = () => {
   return (
     <button
       onClick={() => setDark(!dark)}
-      className="flex items-center gap-2 px-3 py-2 rounded-lg bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors text-sm"
+      className="flex items-center gap-2 px-3 py-2 rounded-lg border border-border bg-secondary/60 text-secondary-foreground hover:border-primary/30 hover:bg-secondary transition-colors text-sm"
       aria-label="Toggle theme"
     >
       {dark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
