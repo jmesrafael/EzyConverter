@@ -4,9 +4,11 @@ import { Moon, Sun } from "lucide-react";
 export const ToggleSwitch = () => {
   const [dark, setDark] = useState(() => {
     if (typeof window !== "undefined") {
-      return document.documentElement.classList.contains("dark");
+      const saved = localStorage.getItem("theme");
+      if (saved) return saved === "dark";
+      return true; // default to dark
     }
-    return false;
+    return true;
   });
 
   useEffect(() => {
@@ -21,10 +23,10 @@ export const ToggleSwitch = () => {
 
   useEffect(() => {
     const saved = localStorage.getItem("theme");
-    if (saved === "dark") {
+    if (saved === "dark" || (!saved)) {
       setDark(true);
-    } else if (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      setDark(true);
+    } else if (saved === "light") {
+      setDark(false);
     }
   }, []);
 

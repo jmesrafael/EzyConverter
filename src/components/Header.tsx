@@ -17,7 +17,10 @@ export const Header = () => {
   const location = useLocation();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border backdrop-blur-md" style={{ background: "hsl(224 22% 4% / 0.85)" }}>
+    <header
+      className="sticky top-0 z-50 border-b border-border backdrop-blur-md"
+      style={{ background: "hsl(224 22% 4% / 0.88)" }}
+    >
       <div className="container flex items-center justify-between h-16">
         <Link to="/" className="flex items-center gap-2.5 font-heading font-bold text-xl">
           <EzyLogo size={34} />

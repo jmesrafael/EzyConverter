@@ -39,9 +39,9 @@ const converters = [
 ];
 
 const steps = [
-  { icon: Upload, label: "Drop your files", desc: "Drag & drop or click to select files from your device." },
-  { icon: Settings2, label: "Choose options", desc: "Pick output format, quality, or conversion mode." },
-  { icon: Download, label: "Download results", desc: "Get individual files or a bundled ZIP instantly." },
+  { icon: Upload,    label: "Drop your files",   desc: "Drag & drop or click to select files from your device." },
+  { icon: Settings2, label: "Choose options",     desc: "Pick output format, quality, or conversion mode."       },
+  { icon: Download,  label: "Download results",   desc: "Get individual files or a bundled ZIP instantly."       },
 ];
 
 const container = { hidden: {}, show: { transition: { staggerChildren: 0.1 } } };
@@ -54,7 +54,7 @@ const Home = () => {
       {/* ── Hero ─────────────────────────────────────────────── */}
       <section className="hero-glow container py-24 md:py-36 text-center">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55 }}>
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/8 text-primary text-xs font-semibold mb-8 tracking-wide uppercase">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/[0.08] text-primary text-xs font-semibold mb-8 tracking-wide uppercase">
             <Zap className="w-3 h-3" /> Free · Private · No sign-up required
           </span>
 
@@ -95,13 +95,13 @@ const Home = () => {
         >
           {converters.map((c) => (
             <motion.div key={c.to} variants={item}>
-              <Link to={c.to} className="glass-card block p-7 group hover:scale-[1.015] transition-transform">
+              <Link to={c.to} className="glass-card metallic block p-7 group hover:scale-[1.015] transition-transform">
                 <div className="w-11 h-11 rounded-xl gradient-bg flex items-center justify-center mb-5 icon-glow">
                   <c.icon className="w-5 h-5 text-black" />
                 </div>
                 <h3 className="text-base font-bold mb-1.5">{c.title}</h3>
                 <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{c.desc}</p>
-                <span className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full border border-primary/20 bg-primary/8 text-primary/80">
+                <span className="inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full border border-primary/20 bg-primary/[0.08] text-primary/80">
                   {c.badge}
                 </span>
               </Link>
@@ -116,7 +116,7 @@ const Home = () => {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="max-w-3xl mx-auto rounded-2xl border border-primary/25 px-7 py-6 flex flex-col sm:flex-row items-start sm:items-center gap-5"
+          className="max-w-3xl mx-auto rounded-2xl border border-primary/25 px-7 py-6 flex flex-col sm:flex-row items-start sm:items-center gap-5 metallic"
           style={{ background: "linear-gradient(135deg, hsl(43 88% 52% / 0.07), hsl(224 22% 7%))" }}
         >
           <div className="w-11 h-11 rounded-xl gradient-bg flex items-center justify-center flex-shrink-0 icon-glow">
@@ -158,36 +158,36 @@ const Home = () => {
         >
           {/* Gold connecting line — desktop only */}
           <div
-            className="hidden md:block absolute top-[60px] left-[calc(33.33%+2px)] right-[calc(33.33%+2px)] h-px pointer-events-none"
-            style={{ background: "linear-gradient(90deg, hsl(43 88% 52% / 0.5), hsl(36 90% 62% / 0.3), hsl(43 88% 52% / 0.5))" }}
+            className="hidden md:block absolute top-[58px] left-[calc(33.33%+4px)] right-[calc(33.33%+4px)] h-px pointer-events-none"
+            style={{ background: "linear-gradient(90deg, hsl(43 88% 52% / 0.6), hsl(36 90% 62% / 0.25), hsl(43 88% 52% / 0.6))" }}
           />
 
           {steps.map((s, i) => (
             <motion.div
               key={s.label}
               variants={item}
-              className="premium-card rounded-2xl p-7 flex flex-col overflow-hidden relative"
+              className="premium-card metallic rounded-2xl overflow-hidden relative flex flex-col items-center text-center px-6 pt-8 pb-7"
             >
-              {/* Decorative number watermark */}
-              <span
-                className="absolute -top-2 -right-1 text-[80px] font-black leading-none select-none pointer-events-none gradient-text opacity-[0.07]"
-                aria-hidden
-              >
-                {i + 1}
-              </span>
-
-              {/* Gold step badge */}
-              <span className="self-start text-[10px] font-black uppercase tracking-[0.18em] text-primary/60 mb-4">
+              {/* Step badge at top */}
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/50 mb-3">
                 Step 0{i + 1}
               </span>
 
               {/* Icon */}
-              <div className="w-12 h-12 rounded-xl gradient-bg flex items-center justify-center mb-5 icon-glow self-start">
-                <s.icon className="w-5 h-5 text-black" />
+              <div className="w-14 h-14 rounded-2xl gradient-bg flex items-center justify-center mb-5 icon-glow">
+                <s.icon className="w-6 h-6 text-black" />
               </div>
 
               <h3 className="font-bold text-base mb-2">{s.label}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
+
+              {/* Decorative number — bottom-right, contained */}
+              <span
+                className="absolute bottom-3 right-4 text-[64px] font-black leading-none select-none pointer-events-none gradient-text opacity-[0.09]"
+                aria-hidden
+              >
+                {i + 1}
+              </span>
             </motion.div>
           ))}
         </motion.div>
@@ -203,7 +203,7 @@ const Home = () => {
           className="grid md:grid-cols-3 gap-5 max-w-4xl mx-auto"
         >
           {features.map((f) => (
-            <motion.div key={f.title} variants={item} className="glass-card p-6 text-center">
+            <motion.div key={f.title} variants={item} className="glass-card metallic p-6 text-center">
               <div className="w-11 h-11 rounded-xl bg-primary/10 border border-primary/15 flex items-center justify-center mx-auto mb-4">
                 <f.icon className="w-5 h-5 text-primary" />
               </div>

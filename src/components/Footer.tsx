@@ -9,7 +9,10 @@ const links = [
 
 export const Footer = () => {
   return (
-    <footer className="border-t border-border mt-auto" style={{ background: "linear-gradient(to top, hsl(224 22% 3%), hsl(224 22% 5%))" }}>
+    <footer
+      className="border-t border-border mt-auto"
+      style={{ background: "linear-gradient(to top, hsl(224 22% 3%), hsl(224 22% 5%))" }}
+    >
       <div className="container py-10">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           {/* Brand */}
@@ -30,7 +33,7 @@ export const Footer = () => {
               <Link
                 key={l.to}
                 to={l.to}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                className="text-sm text-muted-foreground hover:text-primary transition-colors"
               >
                 {l.label}
               </Link>
