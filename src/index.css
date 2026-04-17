@@ -98,6 +98,12 @@
   }
 }
 
+@keyframes metallic-sweep {
+  0%   { left: -75%; opacity: 0; }
+  10%  { opacity: 1; }
+  100% { left: 130%; opacity: 0; }
+}
+
 @layer components {
 
   /* ── Gradient text & bg ─────────────────────────────────── */
@@ -154,6 +160,37 @@
   /* ── Gold icon glow ─────────────────────────────────────── */
   .icon-glow {
     box-shadow: 0 4px 20px hsl(43 88% 52% / 0.35), 0 0 0 1px hsl(43 88% 52% / 0.15);
+  }
+
+  /* ── Metallic shimmer on hover ─────────────────────────── */
+  .metallic {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .metallic::after {
+    content: '';
+    position: absolute;
+    top: -60%;
+    left: -75%;
+    width: 50%;
+    height: 220%;
+    background: linear-gradient(
+      105deg,
+      transparent 20%,
+      hsl(43 90% 75% / 0.18) 40%,
+      hsl(43 100% 95% / 0.28) 50%,
+      hsl(43 90% 75% / 0.18) 60%,
+      transparent 80%
+    );
+    transform: skewX(-15deg);
+    pointer-events: none;
+    opacity: 0;
+    transition: none;
+  }
+
+  .metallic:hover::after {
+    animation: metallic-sweep 0.65s ease-out forwards;
   }
 
   /* ── Hero ambient glow (radial bg) ─────────────────────── */
