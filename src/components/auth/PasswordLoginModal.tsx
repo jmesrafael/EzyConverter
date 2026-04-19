@@ -48,7 +48,7 @@ export const PasswordLoginModal = ({ isOpen, onOpenChange }: PasswordLoginModalP
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md bg-card border border-border">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold">
             Sign in with Password
@@ -60,7 +60,7 @@ export const PasswordLoginModal = ({ isOpen, onOpenChange }: PasswordLoginModalP
 
         <form onSubmit={handleSignIn} className="space-y-4 py-4">
           <div className="space-y-2">
-            <label htmlFor="email" className="text-sm font-medium">
+            <label htmlFor="email" className="text-sm font-medium text-foreground">
               Email
             </label>
             <Input
@@ -71,11 +71,12 @@ export const PasswordLoginModal = ({ isOpen, onOpenChange }: PasswordLoginModalP
               onChange={(e) => setEmail(e.target.value)}
               disabled={loading}
               required
+              className="bg-muted/50 border-border text-foreground"
             />
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="password" className="text-sm font-medium">
+            <label htmlFor="password" className="text-sm font-medium text-foreground">
               Password
             </label>
             <Input
@@ -86,12 +87,13 @@ export const PasswordLoginModal = ({ isOpen, onOpenChange }: PasswordLoginModalP
               onChange={(e) => setPassword(e.target.value)}
               disabled={loading}
               required
+              className="bg-muted/50 border-border text-foreground"
             />
           </div>
 
           {error && (
-            <div className="p-3 bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-lg">
-              <p className="text-sm text-red-700 dark:text-red-200">{error}</p>
+            <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+              <p className="text-sm text-red-500">{error}</p>
             </div>
           )}
 

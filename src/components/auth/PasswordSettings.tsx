@@ -57,7 +57,7 @@ export const PasswordSettings = () => {
       <CardContent>
         <form onSubmit={handleSetPassword} className="space-y-4">
           <div className="space-y-2">
-            <label htmlFor="new-password" className="text-sm font-medium">
+            <label htmlFor="new-password" className="text-sm font-medium text-foreground">
               New Password
             </label>
             <Input
@@ -68,11 +68,12 @@ export const PasswordSettings = () => {
               onChange={(e) => setPasswordValue(e.target.value)}
               disabled={loading}
               required
+              className="bg-muted/50 border-border text-foreground"
             />
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="confirm-password" className="text-sm font-medium">
+            <label htmlFor="confirm-password" className="text-sm font-medium text-foreground">
               Confirm Password
             </label>
             <Input
@@ -83,6 +84,7 @@ export const PasswordSettings = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
               disabled={loading}
               required
+              className="bg-muted/50 border-border text-foreground"
             />
           </div>
 
@@ -90,8 +92,8 @@ export const PasswordSettings = () => {
             <div
               className={`p-3 rounded-lg flex items-center gap-2 text-sm ${
                 message.type === 'success'
-                  ? 'bg-green-50 dark:bg-green-950 text-green-700 dark:text-green-200'
-                  : 'bg-red-50 dark:bg-red-950 text-red-700 dark:text-red-200'
+                  ? 'bg-green-500/10 border border-green-500/30 text-green-500'
+                  : 'bg-red-500/10 border border-red-500/30 text-red-500'
               }`}
             >
               {message.type === 'success' ? (

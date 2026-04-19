@@ -44,7 +44,7 @@ export const LoginModal = ({ isOpen, onOpenChange }: LoginModalProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md bg-card border border-border">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold">
             Sign in to EzyConverter
@@ -55,8 +55,8 @@ export const LoginModal = ({ isOpen, onOpenChange }: LoginModalProps) => {
         </DialogHeader>
 
         <div className="space-y-4 py-4">
-          <div className="rounded-lg border border-dashed p-4 bg-muted/30">
-            <h3 className="font-semibold mb-2">Pro features include:</h3>
+          <div className="rounded-lg border border-primary/20 p-4 bg-primary/5">
+            <h3 className="font-semibold mb-2 text-foreground">Pro features include:</h3>
             <ul className="space-y-1 text-sm text-muted-foreground">
               <li>✓ No ads</li>
               <li>✓ Unlimited batch conversions</li>
@@ -66,15 +66,15 @@ export const LoginModal = ({ isOpen, onOpenChange }: LoginModalProps) => {
           </div>
 
           {sent ? (
-            <div className="p-4 bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 rounded-lg">
-              <p className="text-sm text-green-700 dark:text-green-200">
+            <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-lg">
+              <p className="text-sm text-green-500">
                 ✓ Check your email for a login link! Click it to sign in.
               </p>
             </div>
           ) : (
             <form onSubmit={handleMagicLinkSignIn} className="space-y-3">
               <div className="space-y-2">
-                <label htmlFor="email" className="text-sm font-medium">
+                <label htmlFor="email" className="text-sm font-medium text-foreground">
                   Email address
                 </label>
                 <Input
@@ -85,6 +85,7 @@ export const LoginModal = ({ isOpen, onOpenChange }: LoginModalProps) => {
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={loading}
                   required
+                  className="bg-muted/50 border-border text-foreground"
                 />
               </div>
 
