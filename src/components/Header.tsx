@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { ToggleSwitch } from "./ToggleSwitch";
 import { EzyLogo } from "./EzyLogo";
+import { UserMenu } from "./auth/UserMenu";
+import { LoginModal } from "./auth/LoginModal";
 
 const mainNavLinks = [
   { to: "/", label: "Home" },
@@ -24,6 +26,7 @@ const converterLinks = [
 export const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [convertersOpen, setConvertersOpen] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
   const location = useLocation();
 
   return (
@@ -72,8 +75,9 @@ export const Header = () => {
             </div>
           </div>
 
-          <div className="ml-4">
+          <div className="ml-4 flex items-center gap-3 pl-4 border-l border-border">
             <ToggleSwitch />
+            <UserMenu />
           </div>
         </nav>
 
@@ -138,13 +142,18 @@ export const Header = () => {
                 </div>
               )}
 
-              <div className="px-4 pt-2">
+              <div className="px-4 pt-2 border-t border-border flex items-center justify-between">
                 <ToggleSwitch />
+                <div className="ml-auto">
+                  <UserMenu />
+                </div>
               </div>
             </nav>
           </motion.div>
         )}
       </AnimatePresence>
+
+      <LoginModal isOpen={loginOpen} onOpenChange={setLoginOpen} />
     </header>
   );
 };

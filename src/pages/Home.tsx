@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Image, FileText, ArrowRight, Zap, Shield, Wifi, Upload, Settings2, Download } from "lucide-react";
 import { MainLayout } from "@/components/MainLayout";
+import { ProBenefitsBanner } from "@/components/ProBenefitsBanner";
 
 const features = [
   {
@@ -55,7 +56,7 @@ const Home = () => {
       <section className="hero-glow container py-24 md:py-36 text-center">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55 }}>
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/[0.08] text-primary text-xs font-semibold mb-8 tracking-wide uppercase">
-            <Zap className="w-3 h-3" /> Free · Private · No sign-up required
+            <Zap className="w-3 h-3" /> Free Tier · Private · Optional Sign-up
           </span>
 
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 leading-[1.08]">
@@ -67,7 +68,7 @@ const Home = () => {
             Transform images and PDFs directly in your browser — fast, private, and completely free.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
             <Link
               to="/image-converter"
               className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl gradient-bg text-black font-bold hover:opacity-90 transition-opacity shadow-lg"
@@ -81,6 +82,10 @@ const Home = () => {
               Convert PDFs
             </Link>
           </div>
+
+          <p className="text-sm text-muted-foreground">
+            💡 Sign up to unlock Pro features: no ads, unlimited conversions, and more
+          </p>
         </motion.div>
       </section>
 
@@ -177,6 +182,17 @@ const Home = () => {
               <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
             </motion.div>
           ))}
+        </motion.div>
+      </section>
+
+      {/* ── Pro Benefits Banner ──────────────────────────────── */}
+      <section className="container pb-24">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          <ProBenefitsBanner />
         </motion.div>
       </section>
 
