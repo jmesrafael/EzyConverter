@@ -29,6 +29,7 @@ interface AuthContextType {
   signInWithMagicLink: (email: string) => Promise<void>;
   signInWithPassword: (email: string, password: string) => Promise<void>;
   setPassword: (password: string) => Promise<void>;
+  checkUserExists: (email: string) => Promise<boolean>;
   signOut: () => Promise<void>;
 }
 
@@ -135,6 +136,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const checkUserExists = async (email: string): Promise<boolean> => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('email', email)
+        .single();
+
+      if (error && error.code !== 'PGRST116') {
+        console.error('Error checking user existence:', error);
+        return false;
+      }
+
+      return !!data;
+    } catch (error) {
+      console.error('Check user exists error:', error);
+      return false;
+    }
+  };
+
   const signOut = async () => {
     try {
       const { error } = await supabase.auth.signOut();
@@ -157,6 +178,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     signInWithMagicLink,
     signInWithPassword,
     setPassword,
+    checkUserExists,
     signOut,
   };
 

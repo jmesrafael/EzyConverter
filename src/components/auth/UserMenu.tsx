@@ -21,12 +21,20 @@ export const UserMenu = () => {
   if (!user) {
     return (
       <>
-        <button
-          onClick={() => setLoginOpen(true)}
-          className="px-3 py-2 text-sm font-medium rounded-md hover:bg-accent transition-colors"
-        >
-          Sign In
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setLoginOpen(true)}
+            className="px-3 py-2 text-sm font-medium rounded-md hover:bg-accent transition-colors"
+          >
+            Sign In
+          </button>
+          <button
+            onClick={() => setLoginOpen(true)}
+            className="px-3 py-2 text-sm font-medium rounded-md bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+          >
+            Login
+          </button>
+        </div>
         <LoginModal isOpen={loginOpen} onOpenChange={setLoginOpen} />
       </>
     );
