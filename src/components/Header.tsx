@@ -7,9 +7,15 @@ import { EzyLogo } from "./EzyLogo";
 
 const navLinks = [
   { to: "/", label: "Home" },
+  { to: "/temperature-converter", label: "Temperature" },
+  { to: "/length-converter", label: "Length" },
+  { to: "/weight-converter", label: "Weight" },
   { to: "/image-converter", label: "Image" },
   { to: "/pdf-converter", label: "PDF" },
-  { to: "/settings", label: "Settings" },
+  { to: "/data-converter", label: "Data" },
+  { to: "/engineering-converters", label: "Engineering" },
+  { to: "/math-converters", label: "Math" },
+  { to: "/time-converter", label: "Time" },
 ];
 
 export const Header = () => {
