@@ -9,6 +9,11 @@ import { AuthProvider } from "@/context/AuthContext";
 // Eager load Home for fast initial paint
 import Home from "./pages/Home";
 
+// Dashboard pages
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const MyAccount = lazy(() => import("./pages/MyAccount"));
+const Subscription = lazy(() => import("./pages/Subscription"));
+
 // Lazy load all converter pages for optimal bundle splitting
 const ImageConverter = lazy(() => import("./pages/ImageConverter"));
 const PDFConverter = lazy(() => import("./pages/PDFConverter"));
@@ -46,6 +51,13 @@ const App = () => (
           <Suspense fallback={<Loading />}>
             <Routes>
             <Route path="/" element={<Home />} />
+
+            {/* Dashboard Routes */}
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/my-account" element={<MyAccount />} />
+            <Route path="/subscription" element={<Subscription />} />
+
+            {/* Converter Routes */}
             <Route path="/image-converter" element={<ImageConverter />} />
             <Route path="/pdf-converter" element={<PDFConverter />} />
             <Route path="/length-converter" element={<LengthConverter />} />

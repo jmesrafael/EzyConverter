@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,7 +11,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/context/AuthContext';
-import { LogOut, Settings, Zap, Key } from 'lucide-react';
+import { LogOut, Settings, Zap, LayoutDashboard, CreditCard } from 'lucide-react';
 import { LoginModal } from './LoginModal';
 
 export const UserMenu = () => {
@@ -62,22 +63,42 @@ export const UserMenu = () => {
         <DropdownMenuLabel>{email}</DropdownMenuLabel>
 
         {isPro && (
-          <div className="px-2 py-1.5 text-xs text-muted-foreground">
-            Pro subscriber
+          <div className="px-2 py-1.5 text-xs text-amber-500 flex items-center gap-1">
+            <Zap className="w-3 h-3" /> Pro subscriber
           </div>
         )}
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem>
-          <Settings className="mr-2 h-4 w-4" />
-          <span>My Account</span>
+        <DropdownMenuItem asChild>
+          <Link to="/dashboard" className="flex cursor-pointer">
+            <LayoutDashboard className="mr-2 h-4 w-4" />
+            <span>Dashboard</span>
+          </Link>
+        </DropdownMenuItem>
+
+        <DropdownMenuItem asChild>
+          <Link to="/my-account" className="flex cursor-pointer">
+            <Settings className="mr-2 h-4 w-4" />
+            <span>My Account</span>
+          </Link>
         </DropdownMenuItem>
 
         {!isPro && (
-          <DropdownMenuItem>
-            <Zap className="mr-2 h-4 w-4" />
-            <span>Upgrade to Pro</span>
+          <DropdownMenuItem asChild>
+            <Link to="/subscription" className="flex cursor-pointer">
+              <CreditCard className="mr-2 h-4 w-4" />
+              <span>Upgrade to Pro</span>
+            </Link>
+          </DropdownMenuItem>
+        )}
+
+        {isPro && (
+          <DropdownMenuItem asChild>
+            <Link to="/subscription" className="flex cursor-pointer">
+              <CreditCard className="mr-2 h-4 w-4" />
+              <span>Manage Plan</span>
+            </Link>
           </DropdownMenuItem>
         )}
 
