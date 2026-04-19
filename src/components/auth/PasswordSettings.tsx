@@ -7,6 +7,7 @@ import { Loader2, Check, X } from 'lucide-react';
 
 export const PasswordSettings = () => {
   const { setPassword, user } = useAuth();
+  const [showForm, setShowForm] = useState(false);
   const [password, setPasswordValue] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -49,72 +50,103 @@ export const PasswordSettings = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Password Management</CardTitle>
-        <CardDescription>
-          Set a password to enable email/password sign-in
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSetPassword} className="space-y-4">
-          <div className="space-y-2">
-            <label htmlFor="new-password" className="text-sm font-medium text-foreground">
-              New Password
-            </label>
-            <Input
-              id="new-password"
-              type="password"
-              placeholder="At least 8 characters"
-              value={password}
-              onChange={(e) => setPasswordValue(e.target.value)}
-              disabled={loading}
-              required
-              className="bg-muted/50 border-border text-foreground"
-            />
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle>Password Management</CardTitle>
+            <CardDescription>
+              Set a password to enable email/password sign-in
+            </CardDescription>
           </div>
-
-          <div className="space-y-2">
-            <label htmlFor="confirm-password" className="text-sm font-medium text-foreground">
-              Confirm Password
-            </label>
-            <Input
-              id="confirm-password"
-              type="password"
-              placeholder="Confirm your password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              disabled={loading}
-              required
-              className="bg-muted/50 border-border text-foreground"
-            />
-          </div>
-
-          {message && (
-            <div
-              className={`p-3 rounded-lg flex items-center gap-2 text-sm ${
-                message.type === 'success'
-                  ? 'bg-green-500/10 border border-green-500/30 text-green-500'
-                  : 'bg-red-500/10 border border-red-500/30 text-red-500'
-              }`}
+          {!showForm && (
+            <Button
+              type="button"
+              onClick={() => setShowForm(true)}
+              className="gradient-bg text-black font-semibold hover:opacity-90 transition-opacity"
             >
-              {message.type === 'success' ? (
-                <Check className="h-4 w-4" />
-              ) : (
-                <X className="h-4 w-4" />
-              )}
-              {message.text}
-            </div>
+              Change Password
+            </Button>
           )}
+        </div>
+      </CardHeader>
 
-          <Button type="submit" disabled={loading} className="w-full gradient-bg text-black font-semibold hover:opacity-90 transition-opacity">
-            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            {loading ? 'Setting password...' : 'Set Password'}
-          </Button>
+      {showForm && (
+        <CardContent>
+          <form onSubmit={handleSetPassword} className="space-y-4">
+            <div className="space-y-2">
+              <label htmlFor="new-password" className="text-sm font-medium text-foreground">
+                New Password
+              </label>
+              <Input
+                id="new-password"
+                type="password"
+                placeholder="At least 8 characters"
+                value={password}
+                onChange={(e) => setPasswordValue(e.target.value)}
+                disabled={loading}
+                required
+                className="bg-muted/50 border-border text-foreground"
+              />
+            </div>
 
-          <p className="text-xs text-muted-foreground">
-            After setting a password, you can sign in with your email and password in addition to magic links.
-          </p>
-        </form>
-      </CardContent>
+            <div className="space-y-2">
+              <label htmlFor="confirm-password" className="text-sm font-medium text-foreground">
+                Confirm Password
+              </label>
+              <Input
+                id="confirm-password"
+                type="password"
+                placeholder="Confirm your password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                disabled={loading}
+                required
+                className="bg-muted/50 border-border text-foreground"
+              />
+            </div>
+
+            {message && (
+              <div
+                className={`p-3 rounded-lg flex items-center gap-2 text-sm ${
+                  message.type === 'success'
+                    ? 'bg-green-500/10 border border-green-500/30 text-green-500'
+                    : 'bg-red-500/10 border border-red-500/30 text-red-500'
+                }`}
+              >
+                {message.type === 'success' ? (
+                  <Check className="h-4 w-4" />
+                ) : (
+                  <X className="h-4 w-4" />
+                )}
+                {message.text}
+              </div>
+            )}
+
+            <div className="flex gap-2">
+              <Button type="submit" disabled={loading} className="flex-1 gradient-bg text-black font-semibold hover:opacity-90 transition-opacity">
+                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                {loading ? 'Setting password...' : 'Set Password'}
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => {
+                  setShowForm(false);
+                  setPasswordValue('');
+                  setConfirmPassword('');
+                  setMessage(null);
+                }}
+                disabled={loading}
+              >
+                Cancel
+              </Button>
+            </div>
+
+            <p className="text-xs text-muted-foreground">
+              After setting a password, you can sign in with your email and password in addition to magic links.
+            </p>
+          </form>
+        </CardContent>
+      )}
     </Card>
   );
 };

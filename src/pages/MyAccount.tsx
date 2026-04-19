@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { DashboardLayout } from '@/components/DashboardLayout';
 import { PasswordSettings } from '@/components/auth/PasswordSettings';
 import { useAuth } from '@/context/AuthContext';
-import { Mail, Shield, Calendar } from 'lucide-react';
+import { Mail, Shield, Calendar, HardDrive, Image as ImageIcon } from 'lucide-react';
 
 export default function MyAccount() {
   const { user, profile } = useAuth();
@@ -84,6 +84,40 @@ export default function MyAccount() {
                     <p className="text-lg font-semibold mt-1">{formatDate(profile?.pro_since)}</p>
                   </div>
                 </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Upload Limits */}
+          {!profile?.is_pro && (
+            <Card className="border-blue-500/20 bg-blue-500/5">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-blue-500">
+                  <ImageIcon className="w-5 h-5" />
+                  Free Plan Upload Limits
+                </CardTitle>
+                <CardDescription>Limits for file conversion on the public converter</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="flex items-center gap-3">
+                    <ImageIcon className="w-5 h-5 text-blue-500" />
+                    <div>
+                      <label className="text-sm font-medium">Max Images</label>
+                      <p className="text-lg font-semibold mt-0.5">5 images per session</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <HardDrive className="w-5 h-5 text-blue-500" />
+                    <div>
+                      <label className="text-sm font-medium">Max File Size</label>
+                      <p className="text-lg font-semibold mt-0.5">50 MB per file</p>
+                    </div>
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground mt-4">
+                  Upgrade to Pro to unlock unlimited uploads and file sizes.
+                </p>
               </CardContent>
             </Card>
           )}

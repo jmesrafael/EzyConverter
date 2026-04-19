@@ -1,9 +1,13 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Upload, FileText, Settings2, Trash2, Download, GitMerge, Scissors, Minimize2 } from "lucide-react";
+import { Upload, FileText, Settings2, Trash2, Download, GitMerge, Scissors, Minimize2, AlertCircle } from "lucide-react";
 import { MainLayout } from "@/components/MainLayout";
+import { useAuth } from "@/context/AuthContext";
 
 type PDFMode = "merge" | "compress";
+
+const MAX_FILES_FREE = 5;
+const MAX_FILE_SIZE_FREE = 50 * 1024 * 1024; // 50 MB
 
 function formatSize(bytes: number): string {
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
@@ -16,14 +20,33 @@ const MODES = [
 ];
 
 const PDFConverter = () => {
+  const { isPro } = useAuth();
   const [files, setFiles] = useState<File[]>([]);
   const [mode, setMode] = useState<PDFMode>("merge");
   const [dragOver, setDragOver] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const addFiles = (selected: FileList | File[]) => {
+    setError(null);
     const pdfs = Array.from(selected).filter((f) => f.type === "application/pdf");
     if (!pdfs.length) return;
+
+    // Check free tier limits
+    if (!isPro) {
+      const oversizedFiles = pdfs.filter(f => f.size > MAX_FILE_SIZE_FREE);
+      if (oversizedFiles.length > 0) {
+        setError(`File size limit is 50 MB for free users. ${oversizedFiles.length} file(s) exceed this limit.`);
+        return;
+      }
+
+      const totalFiles = files.length + pdfs.length;
+      if (totalFiles > MAX_FILES_FREE) {
+        setError(`Free users can upload maximum 5 PDFs per session. You have ${files.length} and trying to add ${pdfs.length}.`);
+        return;
+      }
+    }
+
     setFiles((prev) => [...prev, ...pdfs]);
   };
 
@@ -53,7 +76,29 @@ const PDFConverter = () => {
           <p className="text-muted-foreground mb-8">
             Merge or compress PDF files directly in your browser.
           </p>
+
+          {!isPro && (
+            <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-8 flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="font-medium text-blue-500 mb-1">Free Plan Limits</p>
+                <p className="text-sm text-blue-500/80">Maximum 5 PDFs per session, 50 MB per file</p>
+              </div>
+            </div>
+          )}
         </motion.div>
+
+        {/* Error Message */}
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 mb-8 flex items-start gap-3"
+          >
+            <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+            <p className="text-sm text-red-500">{error}</p>
+          </motion.div>
+        )}
 
         {/* Drop zone */}
         <motion.div

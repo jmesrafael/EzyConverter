@@ -1,10 +1,14 @@
 // src/pages/ImageConverter.tsx
 import { useState, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Upload, Image, Settings2, Archive, Trash2, Download } from "lucide-react";
+import { Upload, Image, Settings2, Archive, Trash2, Download, AlertCircle } from "lucide-react";
 import { MainLayout } from "@/components/MainLayout";
 import { Slider } from "@/components/ui/slider";
+import { useAuth } from "@/context/AuthContext";
 import JSZip from "jszip";
+
+const MAX_FILES_FREE = 5;
+const MAX_FILE_SIZE_FREE = 50 * 1024 * 1024; // 50 MB
 
 // ── Format config ─────────────────────────────────────────────────────────────
 const FORMATS = {
@@ -64,6 +68,7 @@ async function convertImage(
 
 // ── Component ─────────────────────────────────────────────────────────────────
 const ImageConverter = () => {
+  const { isPro } = useAuth();
   const [files,        setFiles]        = useState<File[]>([]);
   const [converted,    setConverted]    = useState<Record<number, ConvertedFile>>({});
   const [previews,     setPreviews]     = useState<Record<number, string>>({});
@@ -71,6 +76,7 @@ const ImageConverter = () => {
   const [format,       setFormat]       = useState<FormatKey>("webp");
   const [isConverting, setIsConverting] = useState<boolean>(false);
   const [dragOver,     setDragOver]     = useState<boolean>(false);
+  const [error,        setError]        = useState<string | null>(null);
 
   // Snapshot of settings used in the last conversion run.
   // Convert All is disabled until quality, format, or file list diverges from this.
@@ -98,9 +104,27 @@ const ImageConverter = () => {
 
   // ── File management ──────────────────────────────────────────────────────────
   const addFiles = (selectedFiles: FileList | File[]) => {
+    setError(null);
     const filesArray = Array.from(selectedFiles);
     const imageFiles = filesArray.filter((f): f is File => f.type.startsWith("image/"));
     if (!imageFiles.length) return;
+
+    // Check free tier limits
+    if (!isPro) {
+      const oversizedFiles = imageFiles.filter(f => f.size > MAX_FILE_SIZE_FREE);
+      if (oversizedFiles.length > 0) {
+        setError(`File size limit is 50 MB for free users. ${oversizedFiles.length} file(s) exceed this limit.`);
+        return;
+      }
+
+      const activeFiles = files.filter(f => f !== null);
+      const totalFiles = activeFiles.length + imageFiles.length;
+      if (totalFiles > MAX_FILES_FREE) {
+        setError(`Free users can upload maximum 5 images per session. You have ${activeFiles.length} and trying to add ${imageFiles.length}.`);
+        return;
+      }
+    }
+
     const startIndex = files.length;
     setFiles(prev => [...prev, ...imageFiles]);
     imageFiles.forEach((file, idx) => {
@@ -192,7 +216,29 @@ const ImageConverter = () => {
           <p className="text-muted-foreground mb-8">
             Convert images to WebP, JPG, or PNG with adjustable quality.
           </p>
+
+          {!isPro && (
+            <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-8 flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="font-medium text-blue-500 mb-1">Free Plan Limits</p>
+                <p className="text-sm text-blue-500/80">Maximum 5 images per session, 50 MB per file</p>
+              </div>
+            </div>
+          )}
         </motion.div>
+
+        {/* ── Error Message ── */}
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 mb-8 flex items-start gap-3"
+          >
+            <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+            <p className="text-sm text-red-500">{error}</p>
+          </motion.div>
+        )}
 
         {/* ── Upload / Drop zone ── */}
         <motion.div

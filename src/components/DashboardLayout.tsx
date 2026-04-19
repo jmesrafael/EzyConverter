@@ -19,7 +19,7 @@ const sidebarLinks = [
 export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
-  const { user, isPro, signOut } = useAuth();
+  const { isPro, signOut } = useAuth();
 
   const handleSignOut = async () => {
     await signOut();
@@ -34,27 +34,8 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
         <div className="p-6 border-b border-border">
           <Link to="/" className="flex items-center gap-2.5">
             <EzyLogo size={32} />
-            <span className="font-heading font-bold text-lg">Ezy</span>
+            <span className="font-heading font-bold text-lg">EzyConverter</span>
           </Link>
-        </div>
-
-        {/* User Info */}
-        <div className="p-6 border-b border-border">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20">
-              <span className="text-sm font-semibold text-primary">
-                {user?.email?.charAt(0).toUpperCase()}
-              </span>
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold truncate">{user?.email}</p>
-              {isPro && (
-                <p className="text-xs text-amber-500 flex items-center gap-1">
-                  <Zap className="w-3 h-3" /> Pro
-                </p>
-              )}
-            </div>
-          </div>
         </div>
 
         {/* Navigation */}
@@ -81,18 +62,32 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           </div>
         </nav>
 
+        {/* Plan Indicator */}
+        <div className="px-4 py-3 border-t border-border flex items-center justify-between">
+          <span className="text-xs text-muted-foreground font-medium">Plan</span>
+          <span className="text-xs font-semibold flex items-center gap-1">
+            {isPro ? (
+              <span className="text-amber-500 flex items-center gap-1">
+                <Zap className="w-3 h-3" /> Pro
+              </span>
+            ) : (
+              <span className="text-muted-foreground">Free</span>
+            )}
+          </span>
+        </div>
+
         {/* Footer */}
         <div className="p-4 border-t border-border space-y-3">
-          <div className="flex justify-center">
+          <div className="flex items-center gap-2">
             <ToggleSwitch />
+            <button
+              onClick={handleSignOut}
+              className="flex-1 flex items-center gap-2 px-4 py-3 rounded-lg text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors text-sm font-medium"
+            >
+              <LogOut className="w-4 h-4" />
+              Sign Out
+            </button>
           </div>
-          <button
-            onClick={handleSignOut}
-            className="w-full flex items-center gap-2 px-4 py-3 rounded-lg text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors text-sm font-medium"
-          >
-            <LogOut className="w-4 h-4" />
-            Sign Out
-          </button>
         </div>
       </aside>
 
@@ -129,22 +124,6 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                 </button>
               </div>
 
-              {/* User Info */}
-              <div className="p-4 border-b border-border">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20">
-                    <span className="text-sm font-semibold text-primary">
-                      {user?.email?.charAt(0).toUpperCase()}
-                    </span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold truncate">{user?.email}</p>
-                    {isPro && (
-                      <p className="text-xs text-amber-500">Pro</p>
-                    )}
-                  </div>
-                </div>
-              </div>
 
               {/* Navigation */}
               <nav className="flex-1 p-4">
@@ -171,15 +150,32 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                 </div>
               </nav>
 
+              {/* Plan Indicator */}
+              <div className="px-4 py-3 border-t border-border flex items-center justify-between">
+                <span className="text-xs text-muted-foreground font-medium">Plan</span>
+                <span className="text-xs font-semibold flex items-center gap-1">
+                  {isPro ? (
+                    <span className="text-amber-500 flex items-center gap-1">
+                      <Zap className="w-3 h-3" /> Pro
+                    </span>
+                  ) : (
+                    <span className="text-muted-foreground">Free</span>
+                  )}
+                </span>
+              </div>
+
               {/* Footer */}
               <div className="p-4 border-t border-border space-y-3">
-                <button
-                  onClick={handleSignOut}
-                  className="w-full flex items-center gap-2 px-4 py-3 rounded-lg text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors text-sm font-medium"
-                >
-                  <LogOut className="w-4 h-4" />
-                  Sign Out
-                </button>
+                <div className="flex items-center gap-2">
+                  <ToggleSwitch />
+                  <button
+                    onClick={handleSignOut}
+                    className="flex-1 flex items-center gap-2 px-4 py-3 rounded-lg text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors text-sm font-medium"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Sign Out
+                  </button>
+                </div>
               </div>
             </motion.aside>
           </>
