@@ -117,12 +117,12 @@ export const LoginModal = ({ isOpen, onOpenChange }: LoginModalProps) => {
             </button>
           </div>
 
-          <div className="rounded-lg border border-primary/20 p-4 bg-primary/5">
-            <h3 className="font-semibold mb-2 text-foreground">Pro features include:</h3>
+          <div className="rounded-lg border border-blue-500/20 p-4 bg-blue-500/5">
+            <h3 className="font-semibold mb-2 text-foreground text-blue-500">Free Account Benefits:</h3>
             <ul className="space-y-1 text-sm text-muted-foreground">
-              <li>✓ No ads</li>
-              <li>✓ Unlimited batch conversions</li>
-              <li>✓ No file size limits</li>
+              <li>✓ 20+ images per session</li>
+              <li>✓ Larger file sizes (up to 200 MB)</li>
+              <li>✓ Faster processing</li>
               <li>✓ Sync history across devices</li>
             </ul>
           </div>

@@ -7,8 +7,15 @@ import { Slider } from "@/components/ui/slider";
 import { useAuth } from "@/context/AuthContext";
 import JSZip from "jszip";
 
-const MAX_FILES_FREE = 5;
-const MAX_FILE_SIZE_FREE = 50 * 1024 * 1024; // 50 MB
+// Upload limits by tier
+const MAX_FILES_ANONYMOUS = 5;
+const MAX_FILE_SIZE_ANONYMOUS = 50 * 1024 * 1024; // 50 MB
+
+const MAX_FILES_LOGGED_IN = 20;
+const MAX_FILE_SIZE_LOGGED_IN = 200 * 1024 * 1024; // 200 MB
+
+const MAX_FILES_PRO = Infinity;
+const MAX_FILE_SIZE_PRO = Infinity; // Unlimited
 
 // ── Format config ─────────────────────────────────────────────────────────────
 const FORMATS = {
@@ -68,7 +75,7 @@ async function convertImage(
 
 // ── Component ─────────────────────────────────────────────────────────────────
 const ImageConverter = () => {
-  const { isPro } = useAuth();
+  const { user, isPro } = useAuth();
   const [files,        setFiles]        = useState<File[]>([]);
   const [converted,    setConverted]    = useState<Record<number, ConvertedFile>>({});
   const [previews,     setPreviews]     = useState<Record<number, string>>({});
@@ -77,6 +84,11 @@ const ImageConverter = () => {
   const [isConverting, setIsConverting] = useState<boolean>(false);
   const [dragOver,     setDragOver]     = useState<boolean>(false);
   const [error,        setError]        = useState<string | null>(null);
+
+  // Determine upload limits based on user tier
+  const isLoggedIn = !!user;
+  const maxFiles = isPro ? MAX_FILES_PRO : (isLoggedIn ? MAX_FILES_LOGGED_IN : MAX_FILES_ANONYMOUS);
+  const maxFileSize = isPro ? MAX_FILE_SIZE_PRO : (isLoggedIn ? MAX_FILE_SIZE_LOGGED_IN : MAX_FILE_SIZE_ANONYMOUS);
 
   // Snapshot of settings used in the last conversion run.
   // Convert All is disabled until quality, format, or file list diverges from this.
@@ -109,18 +121,24 @@ const ImageConverter = () => {
     const imageFiles = filesArray.filter((f): f is File => f.type.startsWith("image/"));
     if (!imageFiles.length) return;
 
-    // Check free tier limits
-    if (!isPro) {
-      const oversizedFiles = imageFiles.filter(f => f.size > MAX_FILE_SIZE_FREE);
+    // Check file size limits
+    if (!isPro && maxFileSize !== Infinity) {
+      const oversizedFiles = imageFiles.filter(f => f.size > maxFileSize);
       if (oversizedFiles.length > 0) {
-        setError(`File size limit is 50 MB for free users. ${oversizedFiles.length} file(s) exceed this limit.`);
+        const sizeLimitMB = maxFileSize / (1024 * 1024);
+        const tierName = isLoggedIn ? 'logged-in users' : 'anonymous users';
+        setError(`File size limit is ${sizeLimitMB} MB for ${tierName}. ${oversizedFiles.length} file(s) exceed this limit.`);
         return;
       }
+    }
 
+    // Check file count limits
+    if (!isPro && maxFiles !== Infinity) {
       const activeFiles = files.filter(f => f !== null);
       const totalFiles = activeFiles.length + imageFiles.length;
-      if (totalFiles > MAX_FILES_FREE) {
-        setError(`Free users can upload maximum 5 images per session. You have ${activeFiles.length} and trying to add ${imageFiles.length}.`);
+      if (totalFiles > maxFiles) {
+        const tierName = isLoggedIn ? 'logged-in users' : 'anonymous users';
+        setError(`${tierName.charAt(0).toUpperCase() + tierName.slice(1)} can upload maximum ${maxFiles} images per session. You have ${activeFiles.length} and trying to add ${imageFiles.length}.`);
         return;
       }
     }
@@ -221,8 +239,17 @@ const ImageConverter = () => {
             <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-8 flex items-start gap-3">
               <AlertCircle className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
               <div>
-                <p className="font-medium text-blue-500 mb-1">Free Plan Limits</p>
-                <p className="text-sm text-blue-500/80">Maximum 5 images per session, 50 MB per file</p>
+                <p className="font-medium text-blue-500 mb-1">
+                  {isLoggedIn ? 'Free Account Limits' : 'Guest Limits'}
+                </p>
+                <p className="text-sm text-blue-500/80">
+                  Maximum {maxFiles} images per session, {maxFileSize / (1024 * 1024)} MB per file
+                </p>
+                {!isLoggedIn && (
+                  <p className="text-xs text-blue-500/70 mt-2">
+                    💡 <span className="font-medium">Sign in</span> to get 20 images per session and 200 MB per file
+                  </p>
+                )}
               </div>
             </div>
           )}

@@ -6,8 +6,15 @@ import { useAuth } from "@/context/AuthContext";
 
 type PDFMode = "merge" | "compress";
 
-const MAX_FILES_FREE = 5;
-const MAX_FILE_SIZE_FREE = 50 * 1024 * 1024; // 50 MB
+// Upload limits by tier
+const MAX_FILES_ANONYMOUS = 5;
+const MAX_FILE_SIZE_ANONYMOUS = 50 * 1024 * 1024; // 50 MB
+
+const MAX_FILES_LOGGED_IN = 20;
+const MAX_FILE_SIZE_LOGGED_IN = 200 * 1024 * 1024; // 200 MB
+
+const MAX_FILES_PRO = Infinity;
+const MAX_FILE_SIZE_PRO = Infinity; // Unlimited
 
 function formatSize(bytes: number): string {
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
@@ -20,29 +27,40 @@ const MODES = [
 ];
 
 const PDFConverter = () => {
-  const { isPro } = useAuth();
+  const { user, isPro } = useAuth();
   const [files, setFiles] = useState<File[]>([]);
   const [mode, setMode] = useState<PDFMode>("merge");
   const [dragOver, setDragOver] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Determine upload limits based on user tier
+  const isLoggedIn = !!user;
+  const maxFiles = isPro ? MAX_FILES_PRO : (isLoggedIn ? MAX_FILES_LOGGED_IN : MAX_FILES_ANONYMOUS);
+  const maxFileSize = isPro ? MAX_FILE_SIZE_PRO : (isLoggedIn ? MAX_FILE_SIZE_LOGGED_IN : MAX_FILE_SIZE_ANONYMOUS);
+
   const addFiles = (selected: FileList | File[]) => {
     setError(null);
     const pdfs = Array.from(selected).filter((f) => f.type === "application/pdf");
     if (!pdfs.length) return;
 
-    // Check free tier limits
-    if (!isPro) {
-      const oversizedFiles = pdfs.filter(f => f.size > MAX_FILE_SIZE_FREE);
+    // Check file size limits
+    if (!isPro && maxFileSize !== Infinity) {
+      const oversizedFiles = pdfs.filter(f => f.size > maxFileSize);
       if (oversizedFiles.length > 0) {
-        setError(`File size limit is 50 MB for free users. ${oversizedFiles.length} file(s) exceed this limit.`);
+        const sizeLimitMB = maxFileSize / (1024 * 1024);
+        const tierName = isLoggedIn ? 'logged-in users' : 'anonymous users';
+        setError(`File size limit is ${sizeLimitMB} MB for ${tierName}. ${oversizedFiles.length} file(s) exceed this limit.`);
         return;
       }
+    }
 
+    // Check file count limits
+    if (!isPro && maxFiles !== Infinity) {
       const totalFiles = files.length + pdfs.length;
-      if (totalFiles > MAX_FILES_FREE) {
-        setError(`Free users can upload maximum 5 PDFs per session. You have ${files.length} and trying to add ${pdfs.length}.`);
+      if (totalFiles > maxFiles) {
+        const tierName = isLoggedIn ? 'logged-in users' : 'anonymous users';
+        setError(`${tierName.charAt(0).toUpperCase() + tierName.slice(1)} can upload maximum ${maxFiles} PDFs per session. You have ${files.length} and trying to add ${pdfs.length}.`);
         return;
       }
     }
@@ -81,8 +99,17 @@ const PDFConverter = () => {
             <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-8 flex items-start gap-3">
               <AlertCircle className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
               <div>
-                <p className="font-medium text-blue-500 mb-1">Free Plan Limits</p>
-                <p className="text-sm text-blue-500/80">Maximum 5 PDFs per session, 50 MB per file</p>
+                <p className="font-medium text-blue-500 mb-1">
+                  {isLoggedIn ? 'Free Account Limits' : 'Guest Limits'}
+                </p>
+                <p className="text-sm text-blue-500/80">
+                  Maximum {maxFiles} PDFs per session, {maxFileSize / (1024 * 1024)} MB per file
+                </p>
+                {!isLoggedIn && (
+                  <p className="text-xs text-blue-500/70 mt-2">
+                    💡 <span className="font-medium">Sign in</span> to get 20 PDFs per session and 200 MB per file
+                  </p>
+                )}
               </div>
             </div>
           )}
