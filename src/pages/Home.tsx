@@ -168,11 +168,6 @@ const Home = () => {
               variants={item}
               className="premium-card metallic rounded-2xl overflow-hidden relative flex flex-col items-center text-center px-6 pt-8 pb-7"
             >
-              {/* Step badge at top */}
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/50 mb-3">
-                Step 0{i + 1}
-              </span>
-
               {/* Icon */}
               <div className="w-14 h-14 rounded-2xl gradient-bg flex items-center justify-center mb-5 icon-glow">
                 <s.icon className="w-6 h-6 text-black" />
@@ -180,14 +175,6 @@ const Home = () => {
 
               <h3 className="font-bold text-base mb-2">{s.label}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
-
-              {/* Decorative number — bottom-right, contained */}
-              <span
-                className="absolute bottom-3 right-4 text-[64px] font-black leading-none select-none pointer-events-none gradient-text opacity-[0.09]"
-                aria-hidden
-              >
-                {i + 1}
-              </span>
             </motion.div>
           ))}
         </motion.div>
